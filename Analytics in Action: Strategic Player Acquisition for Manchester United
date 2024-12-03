@@ -11,8 +11,7 @@ library(dplyr)
 library(tidyr)
 library(caret)
 
-###------------------------------------------------------------------------------------------------------------------------
-
+###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ###Fetching data for analysis
 
 big5_player_shooting <- fb_big5_advanced_season_stats(season_end_year= c(2024), stat_type= "shooting", team_or_player= "player")
@@ -51,9 +50,10 @@ summary(model)
 # Coefficient is 0.96330
 # R-squared is 0.7794
 
-###----------------------------------------------------------------------------
+###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ###Step 3: Identifying Critical Attributes 
+
 #RFE ANALYSIS 
 
 #Creating the dummy for G+A 
@@ -94,7 +94,8 @@ print(rfe_results)
 #Relevant predictors:
 #Att Pen_Touches, Min_Playing, SoT_per_90_Standard, Att 3rd_Touches, Live_Touches
 
-#VALIDATION OF RFE USING LOGISTIC REGRESSION----------------------------------------------------------------------------
+#LOGISTIC REGRESSION ANALYSIS
+
 logistic_model <- glm(
   exPts_dummy ~ `Att 3rd_Touches` + Live_Touches + Min_Playing + SoT_per_90_Standard + Min_Playing + `Att Pen_Touches`,
   data = train.df,
@@ -125,7 +126,8 @@ conf_matrix <- confusionMatrix(
   factor(actual_classes, levels = c(0, 1))     # Actual values as factor
 )
 
-###-----------------------------------------------------------------------------
+###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ### STEP 4: Create the optimal player based on relevant predictors
 
 
@@ -156,7 +158,8 @@ colnames(optimal_player) <- colnames(preprocess_model$mean)
 # Apply the preprocessing model to scale the optimal player profile
 optimal_player_scaled <- predict(preprocess_model, newdata = optimal_player)
 
-###-----------------------------------------------------------------------------
+###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Step 5: Finding closest player to optimal player profile 
 
 library(FNN)
@@ -188,10 +191,9 @@ closest_players
 #remove players over 26
 closest_players <- closest_players %>% filter(Age <= 26)
 closest_players
-#---------------------------------------------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------------------------
-#Monte Carlo Simulation: The simulation to predicting the of player contribtuion to making the premier league. 
+###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Step 6: Monte Carlo Simulation
 
 
 # Match-specific parameters
