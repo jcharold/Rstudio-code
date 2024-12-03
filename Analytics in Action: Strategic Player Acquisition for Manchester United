@@ -35,9 +35,8 @@ merged_data <- big5_player_standard %>%
 merged_data <- merged_data %>%
   left_join(big5_player_shooting, by = c("Player", "Age", "Squad", "Season_End_Year", "Pos","Nation","Comp","Born"))
 
-
-###----------------------------------------------------------------------------
-### STEP 2: Player Success Analysis 
+###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### STEP 2: Player Success Analysis measured in points. 
 
 table <- fb_season_team_stats(country = "ENG", 
                               gender = "M", 
